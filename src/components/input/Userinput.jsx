@@ -5,7 +5,7 @@ const UserInput = ({
   type = "text",
   id,
   name,
-  placeholder,
+  plcholder,
   value,
   onChange,
   className,
@@ -24,7 +24,7 @@ const UserInput = ({
         type={type}
         id={id}
         name={name}
-        placeholder={placeholder}
+        placeholder={plcholder}
         value={value}
         onChange={onChange}
         inputMode={inputMode}

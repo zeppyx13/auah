@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Userinput from "../components/input/userinput";
+import Userinput from "../../components/input/userinput";
+import "boxicons";
+
 const Login = () => {
   const unsplash = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
   const [bgImage, setBgImage] = useState(
     "https://images.unsplash.com/photo-1513112300738-bbb13af7028e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDU3NjN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mzg3NzU5Nzd8&ixlib=rb-4.0.3&q=80&w=1080"
   );
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const fetchBackground = async () => {
@@ -21,6 +25,10 @@ const Login = () => {
 
     fetchBackground();
   }, []);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <div
@@ -44,14 +52,27 @@ const Login = () => {
             className="w-full"
           />
 
-          <Userinput
-            label={"Password"}
-            type="password"
-            id="usernameLogin"
-            placeholder="Username or Email..."
-            name="password"
-            className="w-full"
-          />
+          {/* Input Password dengan Ikon Mata */}
+          <div className="relative w-full">
+            <Userinput
+              label={"Password"}
+              type={showPassword ? "text" : "password"}
+              id="passwordLogin"
+              placeholder="Password..."
+              name="password"
+              className="w-full pr-12"
+            />
+            {/* Ikon Toggle Password */}
+          </div>
+          <div
+            className="absolute right-2 top-1/2 mt-[2%] transform -translate-y-1/2 cursor-pointer"
+            onClick={togglePasswordVisibility}
+          >
+            <box-icon
+              name={showPassword ? "hide" : "show-alt"}
+              size="md"
+            ></box-icon>
+          </div>
 
           <div className="flex items-center justify-between">
             <label className="flex items-center">
