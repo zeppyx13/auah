@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import session from "express-session";
+import mysql from "mysql";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 const app = express();
@@ -25,7 +28,46 @@ app.use(
     cookie: { secure: false },
   })
 );
-
+// mysql
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+});
+// check koneksi
+db.connect((err) => {
+  if (err) {
+    console.error("Error connecting to the database:", err);
+    return;
+  }
+  console.log("Connected to the database", db.config.database);
+});
+//
+// all users
+app.get("/api/users", (req, res) => {
+  const query = "SELECT * FROM user";
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.json(result);
+  });
+});
+// user data + hutang
+app.get("/api/user/:id", (req, res) => {
+  const query =
+    "SELECT * FROM user inner join hutang on user.id = hutang.id_user where user.id = ?";
+  db.query(query, [req.params.id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.json(result);
+  });
+});
+//
 const PORT = process.env.PORT || 5000;
 app.get("/", (req, res) => {
   res.send("Server running with ExpressJS");

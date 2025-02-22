@@ -1,12 +1,22 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "../../components/navbar/Sidebar";
+import Header from "../../components/navbar/Header";
+import Infocard from "../../components/cards/Infocard";
+import Statchart from "../../components/cards/Statchart";
+import UserList from "../../components/cards/UserList";
 
-const User = () => {
+const Users = () => {
   return (
-    <div>
-      <h1>Dashboard users</h1>
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1 p-6 bg-gray-100 min-h-screen">
+        <Header />
+        <Infocard />
+        <Statchart />
+        <UserList />
+      </div>
     </div>
   );
 };
 
-export default User;
+export default Users;
