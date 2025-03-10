@@ -67,7 +67,18 @@ app.get("/api/user/:id", (req, res) => {
     res.json(result);
   });
 });
-//
+//leaderboard hutang
+app.get("/api/LeaderBoard", (req, res) => {
+  const query =
+    "SELECT user.nama, sum(hutang.hutang) as total_hutang FROM user inner join hutang on user.id = hutang.id_user group by user.id order by total_hutang desc";
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.json(result);
+  });
+});
 const PORT = process.env.PORT || 5000;
 app.get("/", (req, res) => {
   res.send("Server running with ExpressJS");
